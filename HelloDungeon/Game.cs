@@ -1,15 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq; 
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HelloDungeon
 {
+   
     class Game
     {
-        public void Run()
+        float Add(float a, float b)
         {
+            float result = a + b;
+            return result;
+
+        }
+        //Using functions to create stats
+        void PrintStats(string name, float health, float stamina, float durability)
+        {
+            Console.WriteLine("Name: " + name);
+            Console.WriteLine("Health: " + health);
+            Console.WriteLine("Stamina: " + stamina);
+            Console.WriteLine("Durability: " + durability);
+
+        }
+
+        string DisplayMenu(string prompt, string option1, string option2, string option3)
+        {
+            string playerChoice = "";
+
+            while (playerChoice != "1" && playerChoice != "2" && playerChoice != "3")
+            {
+
+                Console.Clear();
+                Console.WriteLine(prompt);
+                //Display all options.
+                Console.WriteLine("1." + option1);
+                Console.WriteLine("2." + option2);
+                Console.WriteLine("3." + option3);
+                
+                //Get player input
+                Console.Write("> ");
+                playerChoice = Console.ReadLine();
+
+                //If the player input is not one of the available options...
+                if (playerChoice != "1" && playerChoice != "2" && playerChoice != "3")
+                {
+                    //... display the error message.
+                    Console.Clear();
+                    Console.WriteLine("Invalid Input");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey(true);
+                   
+
+                }
+
+
+            }
+        
+        
+        
+        
+            return playerChoice;
+        }
+
+
+            public void Run()
+        {
+
+
+
+
+
+            return;
+        
 
 
 
@@ -18,12 +84,13 @@ namespace HelloDungeon
             // Initliazes player stats.
             string playerName = "";
             string playerChoice = "";
-            float health = 100f;
-            float stamina = 100f;
-            float durability = 100f;
+            float playerHealth = 100f;
+            float playerStamina = 100f;
+            float playerDurability = 100f;
             bool playerIsAlive = true;
             bool enemyIsAlive = false;
-
+            bool gameOver = false;
+   
 
 
             while (playerChoice != "1")
@@ -145,10 +212,9 @@ namespace HelloDungeon
                 else
                     Console.WriteLine("Invalid Input fool. Pick again!");
                 Console.ReadKey(true);
-
             }
 
-
+            PrintStats(playerName, playerHealth, playerStamina, playerDurability);
 
 
 
@@ -172,16 +238,17 @@ namespace HelloDungeon
             {
 
                 Console.WriteLine("Athleticsm will increase your stamina by 50");
-                stamina = +50;
+                playerStamina = +50;
             }
             else if (playerChoice == "Super Strength" || playerChoice == "7")
             {
                 Console.WriteLine("Super Strenth will increase your health by 50");
-                health = +50;
+                playerHealth = +50;
             }
             else if (playerChoice == "High Pain Tolerance" || playerChoice == "8")
             {
                 Console.WriteLine("High Pain Tolerance will increase your durability by 50");
+                playerDurability = +50;
             }
             //Seeing if player is sure with their choice.
 
@@ -211,7 +278,26 @@ namespace HelloDungeon
 
 
 
+            while (playerChoice != "1" && playerChoice != "2")
+            {
+                Console.WriteLine("That's it! Wanna play again?");
 
+                Console.WriteLine("1. Yes");
+                Console.WriteLine("2. No");
+                Console.Write("> ");
+
+                playerChoice = Console.ReadLine();
+
+                if (playerChoice == "2")
+                {
+                    gameOver = true;
+                }
+                else if (playerChoice != "1")
+                {
+                    Console.WriteLine("Invaild Input");
+                    gameOver = false;
+                }
+            }
         }
     }
 }
