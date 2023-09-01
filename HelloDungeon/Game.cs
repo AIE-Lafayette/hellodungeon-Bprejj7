@@ -74,7 +74,7 @@ namespace HelloDungeon
 
 
 
-            return;
+            
         
 
 
@@ -210,7 +210,7 @@ namespace HelloDungeon
                     abilitySelected = false;
                 }
                 else
-                    Console.WriteLine("Invalid Input fool. Pick again!");
+                Console.WriteLine("Invalid Input fool. Pick again!");
                 Console.ReadKey(true);
             }
 
