@@ -8,15 +8,20 @@ using System.Xml.Linq;
 
 namespace HelloDungeon
 {
-   
+
     class Game
     {
-        float Add(float a, float b)
-        {
-            float result = a + b;
-            return result;
+        // Initliazes player stats.
+        string playerName = "";
+        string playerChoice = "";
+        float playerHealth = 100f;
+        float playerStamina = 100f;
+        float playerDurability = 100f;
+        bool enemyIsAlive = false;
+        bool gameOver = false;
+        int currentScene = 1;
+        bool abilitySelected = true;
 
-        }
         //Using functions to create stats
         void PrintStats(string name, float health, float stamina, float durability)
         {
@@ -26,11 +31,11 @@ namespace HelloDungeon
             Console.WriteLine("Durability: " + durability);
 
         }
-
         string DisplayMenu(string prompt, string option1, string option2, string option3)
         {
             string playerChoice = "";
 
+            //Main menu
             while (playerChoice != "1" && playerChoice != "2" && playerChoice != "3")
             {
 
@@ -40,7 +45,7 @@ namespace HelloDungeon
                 Console.WriteLine("1." + option1);
                 Console.WriteLine("2." + option2);
                 Console.WriteLine("3." + option3);
-                
+
                 //Get player input
                 Console.Write("> ");
                 playerChoice = Console.ReadLine();
@@ -53,46 +58,18 @@ namespace HelloDungeon
                     Console.WriteLine("Invalid Input");
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey(true);
-                   
 
                 }
 
-
             }
-        
-        
-        
-        
+
             return playerChoice;
-        }
 
-
-            public void Run()
+        } 
+        void DisplayScene0()
         {
-
-
-
-
-
-            
-        
-
-
-
-
-
-            // Initliazes player stats.
-            string playerName = "";
+            currentScene = 0;
             string playerChoice = "";
-            float playerHealth = 100f;
-            float playerStamina = 100f;
-            float playerDurability = 100f;
-            bool playerIsAlive = true;
-            bool enemyIsAlive = false;
-            bool gameOver = false;
-   
-
-
             while (playerChoice != "1")
             {
 
@@ -125,19 +102,17 @@ namespace HelloDungeon
                 {
                     Console.WriteLine("Invalid Input");
                     Console.ReadKey(true);
+                    
                 }
-
-
-
-
-
-
+                
             }
+            PrintStats(playerName, playerHealth, playerStamina, playerDurability);
 
 
-            //Get player input for first and last character name.
 
-
+        }
+        void DisplayScene1()
+        {
             // Displaying a message from mysterious voice.
 
             Console.WriteLine("Welcome to Wonder City" + playerName);
@@ -153,9 +128,9 @@ namespace HelloDungeon
             Console.WriteLine("4. Air?");
             Console.WriteLine("5. Lightning?");
 
-
+            bool invalidInputRecieved = false;
+            string playerChoice;
             playerChoice = Console.ReadLine();
-            bool abilitySelected;
 
 
             if (playerChoice == "Ice" || playerChoice == "1")
@@ -189,9 +164,16 @@ namespace HelloDungeon
                 Console.WriteLine("Press any key to continue.");
                 Console.ReadKey(true);
             }
+            else
+            {
+                playerChoice = "";
+                invalidInputRecieved = true;
+                Console.WriteLine("Invalid Input");
+            }
             //Seeing if player is sure with their choice.
 
-            while (playerChoice != "1")
+            playerChoice = "";
+            while (playerChoice != "1" && invalidInputRecieved == false)
             {
                 Console.WriteLine("Are you sure you want this elemental ability?");
                 Console.WriteLine("1. Yes!");
@@ -202,7 +184,8 @@ namespace HelloDungeon
                 Console.Clear();
                 if (playerChoice == "1")
                 {
-                    abilitySelected = true;
+                    abilitySelected = true; 
+                    currentScene = 1;
                 }
                 else if (playerChoice == "2")
                 {
@@ -217,38 +200,33 @@ namespace HelloDungeon
             PrintStats(playerName, playerHealth, playerStamina, playerDurability);
 
 
+        }
+        void DisplayScene2()
+        {
+            Console.WriteLine("Now that you have chosen your elemental ability, it's time to choose what atribute you want to excel in.");
 
+            //Getting player to choose their attributes
+            Console.WriteLine("6. Altheticism?");
+            Console.WriteLine("7. Super Strength?");
+            Console.WriteLine("8. High Pain Tolerance?");
 
-
-
-
-
-
-
-                    Console.WriteLine("Now that you have chosen your elemental ability, it's time to choose what atribute you want to excel in.");
-
-                //Getting player to choose their attributes
-                    Console.WriteLine("6. Altheticism?");
-                    Console.WriteLine("7. Super Strength?");
-                    Console.WriteLine("8. High Pain Tolerance?");
-           
             playerChoice = Console.ReadLine();
 
             if (playerChoice == "Athleticsm" || playerChoice == "6")
             {
 
                 Console.WriteLine("Athleticsm will increase your stamina by 50");
-                playerStamina = +50;
+                playerStamina =+ 50;
             }
             else if (playerChoice == "Super Strength" || playerChoice == "7")
             {
                 Console.WriteLine("Super Strenth will increase your health by 50");
-                playerHealth = +50;
+                playerHealth =+ 50;
             }
             else if (playerChoice == "High Pain Tolerance" || playerChoice == "8")
             {
                 Console.WriteLine("High Pain Tolerance will increase your durability by 50");
-                playerDurability = +50;
+                playerDurability =+ 50;
             }
             //Seeing if player is sure with their choice.
 
@@ -258,8 +236,9 @@ namespace HelloDungeon
 
             playerChoice = Console.ReadLine();
 
+
             Console.Clear();
-            while (playerChoice != "1") ;
+            while (playerChoice != "1") 
             {
 
                 if (playerChoice == "1")
@@ -272,12 +251,17 @@ namespace HelloDungeon
                     abilitySelected = false;
                 }
                 else
-                    Console.WriteLine("Invalid Input fool. Pick again!");
+                Console.WriteLine("Invalid Input fool. Pick again!");
                 Console.ReadKey(true);
+
+                currentScene = 2;
             }
 
 
 
+        }
+        void DisplayScene3()
+        {
             while (playerChoice != "1" && playerChoice != "2")
             {
                 Console.WriteLine("That's it! Wanna play again?");
@@ -296,9 +280,36 @@ namespace HelloDungeon
                 {
                     Console.WriteLine("Invaild Input");
                     gameOver = false;
+
+                    currentScene = 3;
+
+                }
+            }
+        }
+
+        public void Run()
+        {
+            while (gameOver == false)
+            {
+                if (currentScene == 0)
+                {
+                    DisplayScene0();
+                }       
+                else if (currentScene == 1)
+                {
+                    DisplayScene1();
+                }
+                else if (currentScene == 2)
+                {
+                    DisplayScene2();
+                }
+                else if (currentScene == 3)
+                {
+                    DisplayScene3();
                 }
             }
         }
     }
 }
+
 
